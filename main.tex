@@ -1,0 +1,285 @@
+\documentclass[color=none]{elegantbook}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+ \definecolor{structurecolor}{RGB}{12,86,130}
+ \definecolor{main}{RGB}{0,112,113}%
+ \definecolor{second}{RGB}{107,25,82}%
+ \definecolor{third}{RGB}{244,131,125}%
+
+
+% title info
+\title{Calculus II}
+\subtitle{MAT 296 Section M}
+
+% bio info
+\author{Tim Tribone}
+\institute{Syracuse University}
+\date{\today}
+
+% extra info
+% \version{1.00}
+
+% this makes the picture on the cover page
+\cover{dogs.jpg}
+
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\mainmatter
+\hypersetup{pageanchor=true}
+
+% add preface chapter here if needed
+\chapter{Integration Techniques and Applications}
+\section{Review of Integration}
+ \begin{introduction}
+ \item Calculus I Integration Review
+ \item Integral Properties
+ \item Integrals to memorize
+ \item $u$-substitution
+ \end{introduction}
+ 
+ \begin{definition}Let $f$ be a function defined on the interval $[a,b]$ and let $\Delta x =\frac{b-a}{n}$.
+ \begin{itemize} 
+     \item The \textbf{Left Hand Riemann Sum Approximation with $n$ subdivisions} is:
+     \[\begin{split}
+         \textbf{LHS} &= f(x_0)\Delta x + f(x_1)\Delta x + \cdots + f(x_{n-1})\Delta x\\
+         &= \sum_{i=0}^{n-1}f(x_i)\Delta x
+     \end{split}\]
+     \item The \textbf{Right Hand Riemann Sum Approximation with $n$ subdivisions} is:
+     \[\begin{split}
+         \textbf{RHS} &= f(x_1)\Delta x + f(x_2)\Delta x + \cdots + f(x_{n})\Delta x\\
+         &= \sum_{i=1}^{n}f(x_i)\Delta x
+     \end{split}\]
+ \end{itemize}
+ \end{definition}
+ 
+ To obtain the exact area under the curve, we take smaller and smaller sub-intervals, that is, bigger and bigger $n$.
+ 
+ \begin{theorem}
+ Let $f$ be a function defined on the integral $[a,b]$.
+ \[\lim_{n \to \infty}\left(\sum_{i=0}^{n-1}f(x_i)\Delta x\right) = \int_a^b f(x)\,dx = \lim_{n \to \infty}\left(\sum_{i=1}^{n}f(x_i)\Delta x\right)\] if the limit exists. In this case, we say that $f$ is \textbf{integrable}.
+ \end{theorem}
+ 
+% \foreach \N in {4,5,...,25}
+% {\begin{tikzpicture}[scale=1.2,declare function={f(\x)=((1/3)*(\x)^(3)-3*(\x)^(2)+8*\x-3;},
+% lnode/.style={fill=white,font=\normalsize,inner sep=0pt,text height=1.5em}]
+%  \pgfmathtruncatemacro{\M}{\N/4}
+%  \coordinate (start) at (.8,{f(.8)});
+%  \ifnum\N<22
+%   \foreach \X [remember=\X as \LastX (initially 0)] in {1,...,\N}
+%   {\draw[fill=orange!40!white] (1+\LastX*4/\N,0) rectangle (1+\X*4/\N,{f(1+\LastX*4/\N)});
+%   \draw[red,fill=red] (1+\LastX*4/\N,{f(1+\LastX*4/\N)}) circle (2pt) ;
+%   \path  (1+\LastX*4/\N,0pt) coordinate (x\X);
+%   \ifnum\X=1
+%     \draw (1+\LastX*4/\N,3pt) -- (1+\LastX*4/\N,0pt) coordinate (x\X)
+%       node[anchor=north east,xshift=2pt,lnode]  {$a=x_{\X}$};
+%      \else
+%       \pgfmathtruncatemacro{\itest}{mod(\X,\M)}
+%       \ifnum\itest=0
+%           \pgfmathsetmacro{\dist}{4-\LastX*4/\N}
+%           \ifdim\dist cm>5pt
+%             \draw (1+\LastX*4/\N,3pt) -- (1+\LastX*4/\N,0pt)
+%              node[anchor=north,lnode] {$x_{\X}$};  
+%           \fi  
+%       \fi
+%     \fi
+%   }
+%   \draw[<->] (x2|- 0,-1)--(x3|- 0,-1) node[above,midway] {$\Delta x$};      
+%  \else
+%   \draw[fill=orange!40!white]
+%   plot[domain=1:5,samples=167,variable=\x] ({\x},{f(\x)})
+%   -- (5,0) -| cycle;
+%  \fi
+%  \coordinate (end) at (5.05,{f(5.05)});
+%  \draw (5,3pt) -- (5,0pt)
+%  node[anchor=north west,xshift=-2pt,lnode]{$b$};
+%  \draw (5,0)--(5,{f(5)});
+%  \draw [-latex] (-0.5,0) -- (6,0) node (xaxis) [below] {$x$};
+%  \draw [-latex] (0,-0.5) -- (0,5) node [left] {$y$};
+%  \draw[domain=.5:5.3,samples=200,variable=\x,red,<->,thick] plot ({\x},{f(\x)});                 
+% \end{tikzpicture}}
+ 
+Here is a list of basic antiderivative properties that you \textbf{need to know}.
+
+\begin{proposition}[Properties of Integrals]
+\begin{enumerate}[itemsep=3pt]
+    \item $\displaystyle\int_b^a f(x) \,dx = - \int_a^b f(x) \,dx$
+    \item $\displaystyle\int_a^a f(x) \,dx = 0$
+    \item $\displaystyle\int_a^b c \,dx = c(b-a)$ for any constant $c$
+    \item $\displaystyle c\int_a^b f(x) \,dx = \int_a^b cf(x) \,dx$ for any constatn $c$
+    \item $\displaystyle\int_a^b f(x) \pm g(x) \,dx = \int_a^b f(x)\,dx \pm \int_a^b g(x)\,dx$
+    \item Suppose $a < c < b$. Then $\displaystyle\int_a^b f(x) \,dx = \int_a^c f(x)\,dx + \int_c^b f(x)\,dx$
+\end{enumerate}
+\end{proposition}
+
+Here is a list of basic antiderivatives that you \textbf{need to know.}
+
+\begin{tcolorbox}[title = Antiderivatives]
+\begin{enumerate}
+    \item $\displaystyle \int x^n \,dx = \frac{x^{n+1}}{n+1} + C, \quad n\neq -1 $
+    \item $\displaystyle\int \frac{1}{x}\,dx = \ln|x| + C$
+    \item $\displaystyle\int e^x \,dx = e^x + C$
+    \item $\displaystyle\int \sin(x) \,dx = -\cos(x) + C$
+    \item $\displaystyle\int \cos(x) \,dx = \sin(x) + C$
+    \item $\displaystyle\int \sec^2(x) \,dx = \tan(x) + C$
+    \item $\displaystyle\int \sec(x)\tan(x) \,dx = \sec(x) + C$
+\end{enumerate}
+\end{tcolorbox}
+
+
+
+
+
+
+
+\begin{theorem}[The Fundemental Theorem of Calculus]
+Let $f$ be a continuous function on an interval $[a,b]$.
+\begin{enumerate}
+    \item[(A)] $\displaystyle\int_a^b f(x) \,dx = F(b)- F(a)$ where $F$ is any antiderivative of $f$ ($F' = f)$.
+    \item[(B)] Consider the function $F$ defined as follows: 
+    
+    For $x$ in $[a,b]$, 
+    \[F(x) = \int_a^x f(t) \,dt.\]
+    Then, $F$ is an antiderivaitve of $f$. That is, $F'(x) = f(x)$ for all $x$ in $[a,b]$.
+\end{enumerate}
+\end{theorem}
+
+\section{$u$-Substitution}
+
+Recall the following important, but sometimes confusing, notation.
+
+\begin{definition}
+If $y = f(x)$, then the \textbf{differential} $dy$ is defined to be:
+\[dy = f'(x) dx\]
+\end{definition}
+
+\begin{example}
+Let $u = x^2 = 1$. Then $du = u' \, dx = 2x\, dx$.
+\end{example}
+
+This notation is important for several techniques in Calc II. We will see it all the time so we need to be comfortable with it.
+
+\begin{note}
+Let $f(x)$ and $g(x)$ be integrable functions. Recall from Calc I that integration does not work well with multiplication. We need to be very careful to keep in mind:
+\[\int f(x)g(x)\,dx \neq \left(\int f(x) \,dx\right)\cdot\left(\int g(x) \,dx\right)\]
+
+In other words, you \textbf{can not} just integrate each function and then multiply them.
+\end{note}
+
+One special case when we can integrate the product of two functions is when the integrand is "in the form of" a chain rule.
+
+\begin{tcolorbox}[colback = main!5, colframe=main, title=$u$-Substitution]
+Suppose $g(x)$ is a differentiable function and $f(x)$ is continuous. Then we can integrate 
+\[\int f(g(x)\cdot g'(x) \,dx\] by changing variables to $u = g(x)$.
+\end{tcolorbox}
+
+How does this work again?
+\begin{center}
+    Let $u = g(x)$. Then $du = g'(x) \,dx$.
+\end{center}
+This is exactly what is needed to make a successful substitution to the $u$-variable. We therefore have that
+\[\int f(g(x))\cdot g'(x) \,dx = \int f(u)\,du.\] The resulting integral on the right hand side is often much easier to calculate.
+
+
+\begin{note}
+Why the chain rule? If $F$ is any antiderivative of $f$ (so that $F' = f$), then
+\[\frac{d}{dx}(F(g(x))) = F'(g(x))\cdot g'(x) = f(g(x))\cdot g'(x).\] 
+So, $u$-substitution is "undoing" the chain rule since we know that
+\[\int f(g(x))\cdot g'(x) \,dx = \int \frac{d}{dx}F(g(x)) \,dx = F(g(x)) + C.\]
+\end{note}
+
+\begin{example}
+Compute $\int (x^2 - 1)^42x \,dx$. Without $u$-sub, this would be a nightmare. We would need to expand $(x^2 - 1)^4$ completely, distribute $2x$, and then apply the antiderivative power rule a whole bunch of times. 
+
+With $u$-sub, it's easy!
+
+\begin{tcolorbox}[title=Solution.]
+
+
+
+ \begin{align*}
+    \text{Let} \quad u &= x^2 -1\\
+  \text{Then} \quad du &= 2x \,dx
+\end{align*}
+
+We can now substitute $x$-variables for $u$-variables:
+\[\int (x^2-1)^42x \,dx = \int u^4 \,du = \frac{u^5}{5} + C = \frac{(x^2-1)^5}{5} +C \]
+\end{tcolorbox}
+\textbf{Check:} $\frac{(x^2-1)^5}{5} +C$ is supposed to be an antiderivative of $(x^2-1)^4 2x$. Let's make sure:
+\[\frac{d}{dx}\left(\frac{(x^2-1)^5}{5} + C\right) = \frac{5(x^2-1)^4}{5}\cdot 2x = (x^2-1)^4 2x. \quad \checkmark\]
+I highly recommend doing this check especially at the beginning of the semester while we are getting back in the swing of things.
+\end{example}
+
+Here is a step by step framework for using $u$-sub. Remember, we are looking for "insinde functions" and/or functions whose derivatives are also appearing in the integrand.
+
+
+\begin{tcolorbox}[colback = main!5, colframe=main, title= Steps for $u$-sub]
+\begin{enumerate}
+    \item Let $u$ be a function of $x$ -- usually the inside function of a composition.
+    \item Compute $du$
+    \item Change variables to $u$ -- make sure all $x$'s are accounted for.
+    \item Integrate with respect to $u$
+    \item Convert back to $x$-variables
+\end{enumerate}
+
+\end{tcolorbox}
+
+ 
+ 
+Now, let's practice $u$-sub.
+
+\begin{exercise}
+Integrate the following using $u$-sub.
+
+\begin{enumerate}
+    \item $\displaystyle \int x^3(x^4 + 15)^7 \,dx$
+    \item $\displaystyle \int x^8 \sqrt{x^9 -5}\,dx$
+    \item $\displaystyle\int x^5\sin(3x^6)\,dx$
+    \item 
+\end{enumerate}
+\end{exercise}
+
+Here are two more challenging antiderivatives that you will learn to live with and will eventually have memorized.
+
+\begin{example}
+\(\displaystyle\int \sec(x) \,dx = \ln|\sec(x) + \tan(x)| + C.\)
+\end{example}
+
+\begin{proof}
+To compute the indefinte intgral of $\sec(x)$, perform the following ``trick'':
+\[
+\begin{split}
+    \int \sec(x) \,dx &= \int sec(x) \cdot \frac{\sec(x) + \tan(x)}{\sec(x) + \tan(x)} \,dx\\
+    &= \int \frac{sec^2(x) + \sec(x)\tan(x)}{\sec(x) + \tan(x)}\,dx.\\
+\end{split}
+\] Now take $u$ to be the denominator. That is, let $u = \sec(x) \tan(x)$. Then $du = \sec(x)\tan(x) + \sec^2(x)\,dx$ and therefore
+\[\begin{split}\int \sec(x) \,dx &= \int \frac{sec^2(x) + \sec(x)\tan(x)}{\sec(x) + \tan(x)}\,dx\\
+&= \int \frac{1}{u}\,du\\
+&= \ln|u| + C\\ 
+&= \ln|\sec(x) + \tan(x)| + C. \end{split}\]
+\end{proof}
+
+\begin{exercise}
+Using similar methods, show that $\displaystyle\int \csc(x) \,dx = -\ln|\csc(x) + \cot(x)| + C$
+\end{exercise}
+
+Here's a helpful idea using $u$-substitution:
+
+\begin{proposition}[Linear Change of Variables]
+Suppose $F$ is an antiderivative of $f$, that is, $F' = f$. Then,
+\[\int f(mx + b) \,dx = \frac{1}{m}F(mx + b) + C\]
+for $m \neq 0$.
+\end{proposition}
+
+\begin{example}
+Consider $f(x) = \sin(x)$. Then, $F(x) = -\cos(x)$ is an antiderivative of $f(x)$. For any linear function $y = mx + b$, $m\neq 0$, we may compute
+\[\int \sin(mx + b) = -\frac{1}{m}\cos(mx+b) + C.\]
+This all works because when you take $u = mx+b$, you get that $\frac{1}{m}du = dx$. The same idea works for definite integrals as well.
+\end{example}
+
+\end{document}
